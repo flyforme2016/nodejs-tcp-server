@@ -7,7 +7,7 @@ function requestParser(data) {
   const request = data.toString().split("\r\n");
   const idx = request.indexOf("");
   const [method, path, version] = request[0].split(" ");
-  const headers = request.slice(1, idx - 1);
+  const headers = request.slice(1, idx);
   let header = {};
   headers.forEach(function (data) {
     let [key, value] = data.split(":");

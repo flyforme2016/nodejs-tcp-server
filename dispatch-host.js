@@ -15,6 +15,7 @@ hostHandlerMap.set("www.bar.com", barHandler);
  */
 function dispatchHost(socket, buffer) {
   let request = requestParser(buffer);
+  console.log("🚀 ~ dispatchHost ~ request:", request);
   let host = request.header.Host;
 
   // 1) 요청 헤더에 host가 작성되어 있지 않은 경우 default host(www.foo.com)사용.

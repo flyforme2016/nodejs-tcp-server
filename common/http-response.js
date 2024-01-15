@@ -7,8 +7,19 @@ const { serializeHeaders } = require("./serialize-header");
  */
 function httpResponse(socket, request, response) {
   let buffer = response.body;
-  const range = request.header.Range;
+  const range = request.header["Range"];
+  const ifModifiedSince = request.header["If-Modified-Since"];
+  const lastMTime = response.lastMTime;
 
+  console.log("🚀 ~ httpResponse ~ ifModifiedSince, lastMTime:", ifModifiedSince, lastMTime);
+  if (ifModifiedSince >= lastMTime) {
+    console.log("check");
+    buffer = new Buffer.alloc(0);
+    response.header["Date"] = Date.now();
+    response.header["Last-Modified"] = lastMTime;
+    response.header["Content-Length"] = 0;
+    response["statusCode"] = 304;
+  }
   if (range) {
     const parts = range.replace(/bytes=/, "").split("-");
     const start = parseInt(parts[0], 10);
@@ -22,8 +33,9 @@ function httpResponse(socket, request, response) {
   }
   const headerString = serializeHeaders(response.statusCode, response.header);
   socket.write(Buffer.from(headerString));
-  // socket.write(Buffer.from(buffer));
   socket.write(buffer);
+  console.log("🚀 ~ httpResponse ~ buffer:", buffer);
+  console.log("🚀 ~ httpResponse ~ buffer.toString():", buffer.toString());
   socket.end();
 }
 

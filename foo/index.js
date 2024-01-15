@@ -17,14 +17,16 @@ function fooIndex(socket, request) {
 
   responseHeader["Content-Length"] = fileSize;
   responseHeader["Content-Type"] = "text/html; charset=UTF-8";
+  responseHeader["Last-Modified"] = stat.mtime.getTime();
 
   let response = {
     statusCode: 200,
     header: responseHeader,
     body: file,
+    lastMTime: stat.mtime.getTime(),
     fileSize: fileSize,
   };
-  response = redirectRequest(socket, request, "/test.html");
+  // response = redirectRequest(socket, request, "/test.html");
   httpResponse(socket, request, response);
 }
 
