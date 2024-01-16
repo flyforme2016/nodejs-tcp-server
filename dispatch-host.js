@@ -16,7 +16,7 @@ hostHandlerMap.set("www.bar.com", handleBarRequest);
 function dispatchHost(socket, buffer) {
   const request = requestParser(buffer);
   console.log("🚀 ~ dispatchHost ~ request:\n", request);
-  const host = determineHost(request.headers.Host);
+  const host = determineHost(request.headers["Host"]);
   console.log("🚀 ~ dispatchHost ~ host:", host);
 
   const handler = hostHandlerMap.get(host) || handleNotFoundError;
