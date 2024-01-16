@@ -4,18 +4,24 @@
  * @returns {object} { method : GET, path : "/indext.html", version:"HTTP/1.1", header : "www.foo.com ..." }
  */
 function requestParser(data) {
-  const request = data.toString().split("\r\n");
-  const idx = request.indexOf("");
+  const requestLines = data.toString().split("\r\n");
+  const emptyLineIndex = requestLines.indexOf(""); // 헤더와 바디를 구분하기 위한 기준 Index
   const [method, path, version] = request[0].split(" ");
-  const headers = request.slice(1, idx);
-  let header = {};
-  headers.forEach(function (data) {
-    let [key, value] = data.split(":");
-    header[key] = value.trim();
-  });
-  const body = request.slice(idx + 1);
+  const headers = parseHeaders(requestLines.slice(1, emptyLineIndex));
+  const body = requestLines.slice(emptyLineIndex + 1);
 
-  return { method, path, version, header, body };
+  return { method, path, version, headers, body };
+}
+
+function parseHeaders(lines) {
+  let headers = {};
+  lines.forEach((line) => {
+    const [key, value] = line.split(":");
+    if (key && value) {
+      headers[key.trim()] = value.trim();
+    }
+  });
+  return headers;
 }
 
 module.exports = { requestParser };
