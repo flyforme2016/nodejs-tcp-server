@@ -17,14 +17,14 @@ const { serviceMap } = require("./service-map");
   body: [ '' ]
 }
  */
-function fooHandler(socket, request) {
+function handleFooRequest(socket, request) {
   const service = serviceMap.get(request.path);
-  console.log("🚀 ~ fooHandler ~ request.path:", request.path);
-  if (service) {
-    service(socket, request);
-  } else {
+  if (!service) {
     response404(socket, request);
+    return;
   }
+
+  service(socket, request);
 }
 
-module.exports = { fooHandler };
+module.exports = { handleFooRequest };
