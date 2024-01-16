@@ -6,7 +6,7 @@ const fs = require("fs");
  * 응답 http body 및 header를 반환하는 함수
  */
 function barTest(socket, request) {
-  const filePath = "C:/Users/cjdfi/Desktop/ws2/bar/static/test.html";
+  const filePath = "C:/Users/cjdfi/Desktop/nodejs-tcp-server/bar/static/test.html";
   const stat = fs.statSync(filePath);
   const fileSize = stat.size;
   const file = fs.readFileSync(filePath);

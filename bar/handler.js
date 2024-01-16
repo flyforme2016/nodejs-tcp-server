@@ -1,4 +1,4 @@
-const { response404 } = require("../common/error");
+const { handleNotFoundError } = require("../common/not-found-error-handler");
 const { serviceMap } = require("./service-map");
 /**
  * 206 handelr 호출
@@ -20,7 +20,7 @@ const { serviceMap } = require("./service-map");
 function handleBarRequest(socket, request) {
   const service = serviceMap.get(request.path);
   if (!service) {
-    response404(socket, request);
+    handleNotFoundError(socket, request);
     return;
   }
 

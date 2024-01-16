@@ -4,6 +4,7 @@ statusCodeMap.set(206, "206 Partial Content");
 statusCodeMap.set(302, "302 Found");
 statusCodeMap.set(304, "304 Not Modified");
 statusCodeMap.set(404, "404 Not Found");
+statusCodeMap.set(416, "416 Range Not Satisfiable");
 function serializeHeaders(statusCode, header) {
   let headerString = `HTTP/1.1 ${statusCodeMap.get(statusCode)}\r\n`;
 

@@ -8,7 +8,7 @@ const fs = require("fs");
  * @param {object} request { method: 'POST', path: '/test.html', version: 'HTTP/1.1', header: [ 'Host: www.bar.com', ...], body: [ '' ] }
  */
 function barIndex(socket, request) {
-  const filePath = "C:/Users/cjdfi/Desktop/ws2/bar/static/index.html";
+  const filePath = "C:/Users/cjdfi/Desktop/nodejs-tcp-server/bar/static/index.html";
   const stat = fs.statSync(filePath);
   const fileSize = stat.size;
   const file = fs.readFileSync(filePath);
