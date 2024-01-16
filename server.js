@@ -6,8 +6,10 @@ const { dispatchHost } = require("./dispatch-host");
  */
 function startServer(port) {
   const server = createServer(listenRequest);
-
-  server.listen(port, onListen(port));
+  server.listen(port, () => onListen(port));
+  server.on("error", (err) => {
+    console.error(`Server error: ${err.message}`);
+  });
 }
 
 function onListen(port) {
@@ -20,9 +22,12 @@ function onListen(port) {
  */
 function listenRequest(socket) {
   socket.on("data", (buffer) => {
-    dispatchHost(socket, buffer);
+    try {
+      dispatchHost(socket, buffer);
+    } catch (err) {
+      console.error(`Error in listenRequest: ${err.message}`);
+    }
   });
-  // socket.on("data", dispatchHost(socket).bind())
 }
 
 module.exports = { startServer };
