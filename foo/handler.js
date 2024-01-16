@@ -1,3 +1,4 @@
+const { handleConditionalRequest } = require("../common/conditional-request-handler");
 const { handleNotFoundError } = require("../common/not-found-error-handler");
 const { serviceMap } = require("./service-map");
 /**
@@ -23,8 +24,8 @@ function handleFooRequest(socket, request) {
     handleNotFoundError(socket, request);
     return;
   }
-
-  service(socket, request);
+  handleConditionalRequest(socket, request, service);
+  // service(socket, request);
 }
 
 module.exports = { handleFooRequest };
