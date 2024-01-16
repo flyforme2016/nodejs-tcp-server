@@ -11,9 +11,6 @@ function serializeHeaders(statusCode, header) {
   for (const [key, value] of Object.entries(header)) {
     headerString += `${key}: ${value}\r\n`;
   }
-  console.log(
-    "🚀 ~ file: serialize-response.js:7 ~ serializeResponse ~ headerString:\n" + headerString
-  );
 
   return headerString + `\r\n`;
 }
