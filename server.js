@@ -22,11 +22,7 @@ function onListen(port) {
  */
 function listenRequest(socket) {
   socket.on("data", (buffer) => {
-    try {
-      dispatchHost(socket, buffer);
-    } catch (err) {
-      console.error(`Error in listenRequest: ${err.message}`);
-    }
+    dispatchHost(socket, buffer);
   });
 }
 
