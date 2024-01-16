@@ -1,4 +1,4 @@
-const { httpResponse } = require("../common/http-response");
+const { handleConditionalRequest } = require("../common/conditional-request-handler");
 const { redirectRequest } = require("../common/redirect");
 const { headers } = require("../common/response-header");
 const fs = require("fs");
@@ -8,10 +8,10 @@ const fs = require("fs");
  * @param {object} request { method: 'POST', path: '/test.html', version: 'HTTP/1.1', header: [ 'Host: www.bar.com', ...], body: [ '' ] }
  */
 function fooIndex(socket, request) {
-  let filePath = "C:/Users/cjdfi/Desktop/ws2/foo/static/index.html";
+  const filePath = "C:/Users/cjdfi/Desktop/ws2/foo/static/index.html";
   const stat = fs.statSync(filePath);
   const fileSize = stat.size;
-  let file = fs.readFileSync(filePath);
+  const file = fs.readFileSync(filePath);
 
   const responseHeader = {
     ...headers,
@@ -20,7 +20,7 @@ function fooIndex(socket, request) {
     "Last-Modified": stat.mtime.getTime(),
   };
 
-  let response = {
+  const response = {
     statusCode: 200,
     header: responseHeader,
     body: file,
@@ -28,7 +28,7 @@ function fooIndex(socket, request) {
     fileSize: fileSize,
   };
   // response = redirectRequest(socket, request, "/test.html");
-  httpResponse(socket, request, response);
+  handleConditionalRequest(socket, request, response);
 }
 
 module.exports = { fooIndex };

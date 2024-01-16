@@ -1,4 +1,4 @@
-const { handlePartialContent } = require("./parital-content-handler");
+const { response404 } = require("../common/error");
 const { serviceMap } = require("./service-map");
 /**
  * 206 handelr 호출
@@ -17,11 +17,14 @@ const { serviceMap } = require("./service-map");
   body: [ '' ]
 }
  */
-function barHandler(socket, request) {
-  let service = serviceMap.get(request.path);
-  if (service == undefined) {
-    service = serviceMap.get("error");
-    service(socket, request);
-  } else handlePartialContent(socket, request);
+function handleBarRequest(socket, request) {
+  const service = serviceMap.get(request.path);
+  if (!service) {
+    response404(socket, request);
+    return;
+  }
+
+  service(socket, request);
 }
-module.exports = { barHandler };
+
+module.exports = { handleBarRequest };
