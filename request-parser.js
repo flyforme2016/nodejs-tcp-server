@@ -6,7 +6,7 @@
 function requestParser(data) {
   const requestLines = data.toString().split("\r\n");
   const emptyLineIndex = requestLines.indexOf(""); // 헤더와 바디를 구분하기 위한 기준 Index
-  const [method, path, version] = request[0].split(" ");
+  const [method, path, version] = requestLines[0].split(" ");
   const headers = parseHeaders(requestLines.slice(1, emptyLineIndex));
   const body = requestLines.slice(emptyLineIndex + 1);
 

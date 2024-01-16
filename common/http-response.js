@@ -7,8 +7,8 @@ const { serializeHeaders } = require("./serialize-header");
  */
 function httpResponse(socket, request, response) {
   let buffer = response.body;
-  const range = request.header["Range"];
-  const ifModifiedSince = request.header["If-Modified-Since"];
+  const range = request.headers["Range"];
+  const ifModifiedSince = request.headers["If-Modified-Since"];
   const lastMTime = response.lastMTime;
 
   console.log("🚀 ~ httpResponse ~ ifModifiedSince, lastMTime:", ifModifiedSince, lastMTime);

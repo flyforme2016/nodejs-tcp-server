@@ -16,13 +16,12 @@ hostHandlerMap.set("www.bar.com", barHandler);
 function dispatchHost(socket, buffer) {
   try {
     const request = requestParser(buffer);
-    const host = determineHost(request.header.Host);
+    const host = determineHost(request.headers.Host);
 
     const handler = hostHandlerMap.get(host) || response404;
     handler(socket, request);
   } catch (error) {
     console.error(`Error in dispatchHost: ${error.message}`);
-    response404(socket);
   }
 }
 
@@ -33,7 +32,11 @@ function dispatchHost(socket, buffer) {
  */
 function determineHost(host) {
   // 1) 요청 헤더에 host가 작성되어 있지 않은 경우 default host(www.foo.com)사용.
-  return host === "127.0.0.1" ? config.defaultHost : host;
+  try {
+    return host === "127.0.0.1" ? config.defaultHost : host;
+  } catch (error) {
+    console.error(`Erroor in determineHost: ${error.message}`);
+  }
 }
 
 module.exports = { dispatchHost };
