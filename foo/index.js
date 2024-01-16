@@ -13,11 +13,12 @@ function fooIndex(socket, request) {
   const fileSize = stat.size;
   let file = fs.readFileSync(filePath);
 
-  let responseHeader = headers;
-
-  responseHeader["Content-Length"] = fileSize;
-  responseHeader["Content-Type"] = "text/html; charset=UTF-8";
-  responseHeader["Last-Modified"] = stat.mtime.getTime();
+  const responseHeader = {
+    ...headers,
+    "Content-Length": fileSize,
+    "Content-Type": "text/html; charset=UTF-8",
+    "Last-Modified": stat.mtime.getTime(),
+  };
 
   let response = {
     statusCode: 200,
