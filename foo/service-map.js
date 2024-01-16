@@ -1,10 +1,11 @@
 const { fooIndex } = require("./index");
 const { fooTest } = require("./test");
 const { redirectRequest } = require("../common/redirect");
-let serviceMap = new Map();
 
-serviceMap.set("/index.html", fooIndex);
-serviceMap.set("/test.html", fooTest);
-serviceMap.set("/redirect", redirectRequest);
+const serviceMap = new Map([
+  ["/index.html", fooIndex],
+  ["/test.html", fooTest],
+  ["/redirect", redirectRequest],
+]);
 
 module.exports = { serviceMap };
