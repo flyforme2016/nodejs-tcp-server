@@ -40,7 +40,7 @@ function handleRangeRequest(socket, request, filePath, service) {
 }
 
 function isValidRange(range, fileSize) {
-  const match = range.match(/bytes=(\d*)-(\d*)/);
+  const match = range.match(/bytes=(\d*)-(\d*)/); // ['bytes=0-45', '0', '45', index: 0, input: 'bytes=0-45',groups: undefined]
   if (!match) return false;
 
   const [start, end] = match.slice(1, 3).map(Number);
