@@ -17,6 +17,7 @@ function fooIndex(socket, request, filePath) {
     ...headers,
     "Content-Length": fileSize,
     "Content-Type": "text/html; charset=UTF-8",
+    "Content-Encoding": "gzip",
     "Last-Modified": stat.mtime.toUTCString(),
   };
   const headerString = serializeHeaders(OK_STATUS_CODE, responseHeader);
