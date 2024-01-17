@@ -8,12 +8,11 @@ function httpResponse(socket, headerString, body) {
   console.log("🚀 ~ httpResponse ~ headerString:\n", headerString);
   console.log("🚀 ~ httpResponse ~ body:\n", body.toString());
   try {
-    socket.write(Buffer.from(headerString));
-    socket.write(body);
+    const headerBuffer = Buffer.from(headerString);
+    const response = Buffer.concat([headerBuffer, body]);
+    socket.write(response);
   } catch (error) {
     console.error(`Error sending response: ${error.message}`);
-  } finally {
-    socket.end();
   }
 }
 
