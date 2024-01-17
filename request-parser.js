@@ -16,9 +16,10 @@ function requestParser(data) {
 function parseHeaders(lines) {
   let headers = {};
   lines.forEach((line) => {
-    const [key, value] = line.split(":");
-    if (key && value) {
-      headers[key.trim()] = value.trim();
+    const [key, ...values] = line.split(":");
+    if (key && values) {
+      const value = values.join(":").trim();
+      headers[key.trim()] = value;
     }
   });
   return headers;

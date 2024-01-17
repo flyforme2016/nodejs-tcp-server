@@ -1,4 +1,12 @@
-const statusCodeMap = new Map();
+const statusCodeMap = new Map([
+  [200, "200 OK"],
+  [206, "206 Partial Content"],
+  [302, "302 Found"],
+  [304, "304 Not Modified"],
+  [400, "400 Bad Request"],
+  [404, "404 Not Found"],
+  [200, "416 Range Not Satisfiable"],
+]);
 statusCodeMap.set(200, "200 OK");
 statusCodeMap.set(206, "206 Partial Content");
 statusCodeMap.set(302, "302 Found");

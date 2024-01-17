@@ -1,17 +1,22 @@
+const { httpResponse } = require("./http-response");
 const { headers } = require("./response-header");
+const { serializeHeaders } = require("./serialize-header");
+const REDIRECT_STATUS_CODE = 302;
 /**
  * 응답 http body 및 header를 반환하는 함수
  */
 function redirectRequest(socket, request, redirectPath) {
-  let body = "<html><body><h1>Wait Redirection</h1></body></html>";
-  const fileSize = body.length;
-  let statusCode = 302;
-  let header = headers;
-  header["Content-Length"] = Buffer.byteLength(body);
-  header["Content-Type"] = "text/html; charset=UTF-8";
-  header["Location"] = redirectPath;
+  const responseHeader = {
+    ...headers,
+    "Content-Type": "text/html; charset=UTF-8",
+    "Content-Length": 0,
+    Location: redirectPath,
+    Date: Date.now(),
+  };
 
-  return { statusCode, header, body, fileSize };
+  const buffer = Buffer.alloc(0);
+  const headerString = serializeHeaders(REDIRECT_STATUS_CODE, responseHeader);
+  httpResponse(socket, headerString, buffer);
 }
 
 module.exports = { redirectRequest };

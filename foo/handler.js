@@ -25,7 +25,6 @@ function handleFooRequest(socket, request) {
     return;
   }
   handleConditionalRequest(socket, request, service);
-  // service(socket, request);
 }
 
 module.exports = { handleFooRequest };

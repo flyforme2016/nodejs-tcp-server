@@ -2,6 +2,7 @@ const { serializeHeaders } = require("./serialize-header");
 const { headers } = require("./response-header");
 const { httpResponse } = require("./http-response");
 const fs = require("fs");
+const NOT_FOUND_STATUS_CODE = 404;
 
 function handleNotFoundError(socket, request) {
   const filePath = "C:/Users/cjdfi/Desktop/nodejs-tcp-server/common/static/not-found-error.html";
@@ -13,17 +14,10 @@ function handleNotFoundError(socket, request) {
     ...headers,
     "Content-Length": fileSize,
     "Content-Type": "text/html; charset=UTF-8",
-    "Last-Modified": stat.mtime.getTime(),
+    "Last-Modified": stat.mtime.toUTCString(),
   };
 
-  const response = {
-    statusCode: 404,
-    header: responseHeader,
-    body: file,
-    lastMTime: stat.mtime.getTime(),
-    fileSize: fileSize,
-  };
-  const headerString = serializeHeaders(response.statusCode, response.header);
+  const headerString = serializeHeaders(NOT_FOUND_STATUS_CODE, responseHeader);
   httpResponse(socket, headerString, file);
 }
 
