@@ -21,6 +21,7 @@ function onListen(port) {
  * @param {net.socket} socket
  */
 function listenRequest(socket) {
+  socket.setKeepAlive(true);
   socket.on("data", (buffer) => {
     dispatchHost(socket, buffer);
   });
