@@ -1,7 +1,9 @@
 const { httpResponse } = require("../common/http-response");
-const { serializeHeaders } = require("../common/serialize-header");
+const { buildResponseHeaderBuffer } = require("../common/response-header-buffer-builder");
 const { headers } = require("../common/response-header");
 const fs = require("fs");
+const { compressHttp } = require("../common/http-compressor");
+const { combineBuffer } = require("../common/bufferCombiner");
 const OK_STATUS_CODE = 200;
 /**
  * 응답 본문 및 헤더를 생성하고 HTTP 응답을 전송하는 httpResponse()를 호출하는 서비스.
@@ -17,11 +19,22 @@ function fooIndex(socket, request, filePath) {
     ...headers,
     "Content-Length": fileSize,
     "Content-Type": "text/html; charset=UTF-8",
-    "Content-Encoding": "gzip",
     "Last-Modified": stat.mtime.toUTCString(),
   };
-  const headerString = serializeHeaders(OK_STATUS_CODE, responseHeader);
-  httpResponse(socket, headerString, file);
+
+  const headerBuffer = buildResponseHeaderBuffer(OK_STATUS_CODE, responseHeader);
+  const response = combineBuffer(headerBuffer, file);
+  httpResponse(socket, response);
+
+  // compressHttp(responseHeader, file)
+  //   .then(({ header, compressedBodyBuffer }) => {
+  //     const headerBuffer = buildResponseHeaderBuffer(OK_STATUS_CODE, header);
+  //     const response = combineBuffer(headerBuffer, compressedBodyBuffer);
+  //     httpResponse(socket, response);
+  //   })
+  //   .catch((error) => {
+  //     console.error("🚀 ~ fooIndex ~ error:", error);
+  //   });
 }
 
 module.exports = { fooIndex };

@@ -1,7 +1,7 @@
 const { headers } = require("../common/response-header");
 const { httpResponse } = require("./http-response");
 const { handleRangeNotSatisfiableError } = require("./range-not-satisfiable-error-handler");
-const { serializeHeaders } = require("./serialize-header");
+const { buildResponseHeaderBuffer } = require("./response-header-buffer-builder");
 const fs = require("fs");
 const PARTIAL_CONTENT_STATUS_CODE = 206;
 
@@ -29,7 +29,7 @@ function handleRangeRequest(socket, request, filePath, service) {
 
       file = file.subarray(start, end + 1);
 
-      const headerString = serializeHeaders(PARTIAL_CONTENT_STATUS_CODE, responseHeader);
+      const headerString = buildResponseHeaderBuffer(PARTIAL_CONTENT_STATUS_CODE, responseHeader);
       httpResponse(socket, headerString, file);
     } catch (error) {
       // 잘못된 범위 요청에 대한 처리

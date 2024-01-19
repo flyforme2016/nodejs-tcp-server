@@ -1,5 +1,5 @@
 const { httpResponse } = require("../common/http-response");
-const { serializeHeaders } = require("../common/serialize-header");
+const { buildResponseHeaderBuffer } = require("../common/response-header-buffer-builder");
 const { headers } = require("../common/response-header");
 const fs = require("fs");
 const OK_STATUS_CODE = 200;
@@ -19,7 +19,7 @@ function fooIndexCss(socket, request, filePath) {
     "Content-Type": "text/html; charset=UTF-8",
     "Last-Modified": stat.mtime.toUTCString(),
   };
-  const headerString = serializeHeaders(OK_STATUS_CODE, responseHeader);
+  const headerString = buildResponseHeaderBuffer(OK_STATUS_CODE, responseHeader);
   httpResponse(socket, headerString, file);
 }
 

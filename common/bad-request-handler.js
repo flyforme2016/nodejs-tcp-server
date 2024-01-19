@@ -1,4 +1,4 @@
-const { serializeHeaders } = require("./serialize-header");
+const { buildResponseHeaderBuffer } = require("./response-header-buffer-builder");
 const { httpResponse } = require("./http-response");
 const { headers } = require("./response-header");
 const fs = require("fs");
@@ -17,7 +17,7 @@ function handleBadRequestError(socket) {
     "Last-Modified": stat.mtime.toUTCString(),
   };
 
-  const headerString = serializeHeaders(BAD_REQUEST_STATUS_CODE, responseHeader);
+  const headerString = buildResponseHeaderBuffer(BAD_REQUEST_STATUS_CODE, responseHeader);
   httpResponse(socket, headerString, file);
 }
 

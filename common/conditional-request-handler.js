@@ -1,7 +1,7 @@
 const { getFilePath } = require("./file-path-generator");
 const { httpResponse } = require("./http-response");
 const { handleRangeRequest } = require("./range-request-handler");
-const { serializeHeaders } = require("./serialize-header");
+const { buildResponseHeaderBuffer } = require("./response-header-buffer-builder");
 const { handleBadRequestError } = require("./bad-request-handler");
 const { headers } = require("../common/response-header");
 const fs = require("fs");
@@ -35,7 +35,7 @@ function handleConditionalRequest(socket, request, service) {
         };
 
         const buffer = Buffer.alloc(0);
-        const headerString = serializeHeaders(NOT_MODIFIED_STATUS_CODE, responseHeader);
+        const headerString = buildResponseHeaderBuffer(NOT_MODIFIED_STATUS_CODE, responseHeader);
         httpResponse(socket, headerString, buffer);
       }
     } catch (error) {

@@ -13,13 +13,23 @@ statusCodeMap.set(302, "302 Found");
 statusCodeMap.set(304, "304 Not Modified");
 statusCodeMap.set(404, "404 Not Found");
 statusCodeMap.set(416, "416 Range Not Satisfiable");
-function serializeHeaders(statusCode, header) {
+
+/**
+ *
+ * @param {number} statusCode 200
+ * @param {object} header {"Content-Length": fileSize, "Content-Encoding": "gzip", ...}
+ * @returns
+ */
+function buildResponseHeaderBuffer(statusCode, header) {
   let headerString = `HTTP/1.1 ${statusCodeMap.get(statusCode)}\r\n`;
 
   for (const [key, value] of Object.entries(header)) {
     headerString += `${key}: ${value}\r\n`;
   }
 
-  return headerString + `\r\n`;
+  headerString += `\r\n`;
+
+  console.log("🚀 ~ buildResponseHeaderBuffer ~ headerString:", headerString);
+  return Buffer.from(headerString);
 }
-module.exports = { serializeHeaders };
+module.exports = { buildResponseHeaderBuffer };

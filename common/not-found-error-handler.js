@@ -1,4 +1,4 @@
-const { serializeHeaders } = require("./serialize-header");
+const { buildResponseHeaderBuffer } = require("./response-header-buffer-builder");
 const { headers } = require("./response-header");
 const { httpResponse } = require("./http-response");
 const fs = require("fs");
@@ -17,7 +17,7 @@ function handleNotFoundError(socket, request) {
     "Last-Modified": stat.mtime.toUTCString(),
   };
 
-  const headerString = serializeHeaders(NOT_FOUND_STATUS_CODE, responseHeader);
+  const headerString = buildResponseHeaderBuffer(NOT_FOUND_STATUS_CODE, responseHeader);
   httpResponse(socket, headerString, file);
 }
 

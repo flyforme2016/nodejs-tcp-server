@@ -29,6 +29,7 @@ function dispatchHost(socket, buffer) {
  * @returns {string} host "www.bar.com"
  */
 function determineHost(host) {
+  console.log("🚀 ~ determineHost ~ host:", host);
   // 1) 요청 헤더에 host가 작성되어 있지 않은 경우 default host(www.foo.com)사용.
   if (!host || host === "127.0.0.1:8080") return config.defaultHost;
   return host;
