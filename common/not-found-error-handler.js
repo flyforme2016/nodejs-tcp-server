@@ -2,6 +2,7 @@ const { buildResponseHeaderBuffer } = require("./response-header-buffer-builder"
 const { headers } = require("./response-header");
 const { httpResponse } = require("./http-response");
 const fs = require("fs");
+const { combineBuffer } = require("./bufferCombiner");
 const NOT_FOUND_STATUS_CODE = 404;
 
 function handleNotFoundError(socket, request) {
@@ -17,8 +18,9 @@ function handleNotFoundError(socket, request) {
     "Last-Modified": stat.mtime.toUTCString(),
   };
 
-  const headerString = buildResponseHeaderBuffer(NOT_FOUND_STATUS_CODE, responseHeader);
-  httpResponse(socket, headerString, file);
+  const headerBuffer = buildResponseHeaderBuffer(NOT_FOUND_STATUS_CODE, responseHeader);
+  const response = combineBuffer(headerBuffer, file);
+  httpResponse(socket, response);
 }
 
 module.exports = { handleNotFoundError };

@@ -34,9 +34,8 @@ function handleConditionalRequest(socket, request, service) {
           Date: Date.now(),
         };
 
-        const buffer = Buffer.alloc(0);
         const headerString = buildResponseHeaderBuffer(NOT_MODIFIED_STATUS_CODE, responseHeader);
-        httpResponse(socket, headerString, buffer);
+        httpResponse(socket, headerString);
       }
     } catch (error) {
       console.error(`Error in handleConditionalRequest: ${error.message}`);

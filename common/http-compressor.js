@@ -1,7 +1,5 @@
 const zlib = require("zlib");
-let memory = null;
 function compressHttp(header, body) {
-  memory = xxx;
   return new Promise((resolve, reject) => {
     zlib.deflate(body, (err, compressedBodyBuffer) => {
       if (err) reject(err);
