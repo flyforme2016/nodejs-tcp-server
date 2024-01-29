@@ -10,7 +10,7 @@ const OK_STATUS_CODE = 200;
  * @param {net.socket} socket
  * @param {object} request { method: 'POST', path: '/test.html', version: 'HTTP/1.1', header: [ 'Host: www.bar.com', ...], body: [ '' ] }
  */
-function pageDeskPre(socket, request, filePath) {
+function pageFxFrontendResponsive(socket, request, filePath) {
   const stat = fs.statSync(filePath);
   const file = fs.readFileSync(filePath);
   const fileSize = stat.size;
@@ -22,19 +22,9 @@ function pageDeskPre(socket, request, filePath) {
     "Last-Modified": stat.mtime.toUTCString(),
   };
 
-  // const headerBuffer = buildResponseHeaderBuffer(OK_STATUS_CODE, responseHeader);
-  // const response = combineBuffer(headerBuffer, file);
-  // httpResponse(socket, response);
-
-  compressHttp(responseHeader, file)
-    .then(({ header, compressedBodyBuffer }) => {
-      const headerBuffer = buildResponseHeaderBuffer(OK_STATUS_CODE, header);
-      const response = combineBuffer(headerBuffer, compressedBodyBuffer);
-      httpResponse(socket, response);
-    })
-    .catch((error) => {
-      console.error("🚀 ~ fooIndex ~ error:", error);
-    });
+  const headerBuffer = buildResponseHeaderBuffer(OK_STATUS_CODE, responseHeader);
+  const response = combineBuffer(headerBuffer, file);
+  httpResponse(socket, response);
 }
 
-module.exports = { pageDeskPre };
+module.exports = { pageFxFrontendResponsive };
