@@ -19,7 +19,7 @@ function handleConditionalRequest(socket, request, service) {
       if (isNaN(ifModifiedSinceDate)) throw new Error("Invaild If-Modified-Since");
 
       const stat = fs.statSync(filePath);
-      const lastMTime = stat.mtime.toUTCString();
+      const lastMTime = new Date(stat.mtime.toUTCString());
 
       // 리소스가 변경 된 경우 다음 핸들러에게 요청 전달
       if (ifModifiedSinceDate < lastMTime) {
